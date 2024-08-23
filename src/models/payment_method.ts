@@ -1,7 +1,13 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 
-const PaymentMethod = sequelize.define(
+interface PaymentMethodAttributes {
+    id: string;
+    name: string;
+    credit: boolean;
+}
+
+const PaymentMethod = sequelize.define<Model<PaymentMethodAttributes>>(
     'PaymentMethod',
     {
         id: {

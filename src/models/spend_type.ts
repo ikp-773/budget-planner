@@ -1,7 +1,12 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 
-const SpendType = sequelize.define(
+interface SpendTypeAttributes {
+    id: string;
+    name: string;
+}
+
+const SpendType = sequelize.define<Model<SpendTypeAttributes>>(
     'SpendType',
     {
         id: {

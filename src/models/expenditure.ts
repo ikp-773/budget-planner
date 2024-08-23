@@ -1,11 +1,23 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 import Category from './category';
 import PaymentMethod from './payment_method';
 import SpendType from './spend_type';
 import User from './user';
 
-const Expenditure = sequelize.define(
+interface ExpenditureAttributes {
+    id: string;
+    date: Date;
+    typeId: string;
+    categoryId: string;
+    description: string;
+    paymentMethodId: string;
+    amount: number;
+    note: string;
+    userId: string;
+}
+
+const Expenditure = sequelize.define<Model<ExpenditureAttributes>>(
     'Expenditure',
     {
         id: {
@@ -17,7 +29,7 @@ const Expenditure = sequelize.define(
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
-        type_id: {
+        typeId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -25,7 +37,7 @@ const Expenditure = sequelize.define(
                 key: 'id',
             },
         },
-        category_id: {
+        categoryId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -37,7 +49,7 @@ const Expenditure = sequelize.define(
             type: DataTypes.STRING,
             allowNull: true,
         },
-        payment_method_id: {
+        paymentMethodId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
@@ -56,7 +68,7 @@ const Expenditure = sequelize.define(
             type: DataTypes.STRING,
             allowNull: true,
         },
-        user_id: {
+        userId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {

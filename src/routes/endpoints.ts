@@ -3,11 +3,13 @@ export enum Endpoints {
 
     //For User Authentication
     login = '/login',
+    logout = '/logout',
     register = '/register',
     verify = '/verify',
 
     //For User Details
     user = '/user',
+    refreshToken = '/refresh-token',
 
     //For Expenditure Management
     addExpenditure = '/expenditure',

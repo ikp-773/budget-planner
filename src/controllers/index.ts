@@ -1,3 +1,5 @@
-import TestController from './test';
+import { AuthController } from './auth';
+import { TestController } from './test';
+import { UserController } from './user';
 
-export { TestController };
+export { AuthController, TestController, UserController };
