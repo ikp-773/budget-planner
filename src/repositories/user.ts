@@ -18,7 +18,6 @@ export default class UserRepo {
     static async getUserByMail(mailId: string) {
         return await User.findOne({
             where: { mailId },
-            attributes: { exclude: ['password'] },
         });
     }
 

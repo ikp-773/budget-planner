@@ -3,7 +3,7 @@ import {
     generateRefreshToken,
     verifyRefreshToken,
 } from '../helpers/jwt';
-import { UserCreationAttributes } from '../models/user';
+import { UserCreationAttributes, UserUpdationAttributes } from '../models/user';
 import { UserRepo } from '../repositories';
 import bcrypt from 'bcryptjs';
 
@@ -61,5 +61,15 @@ export default class UserService {
             accessToken: newAccessToken,
             refreshToken: newRefreshToken,
         };
+    }
+
+    // update user data
+    static async updateUser(id: string, payload: UserUpdationAttributes) {
+        return await UserRepo.updateUser(id, payload);
+    }
+
+    // delete user
+    static async deleteUser(id: string) {
+        return await UserRepo.deleteUser(id);
     }
 }
