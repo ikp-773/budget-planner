@@ -1,0 +1,152 @@
+{
+    "v": 2,
+    "name": "Budget Planner",
+    "folders": [
+        {
+            "v": 2,
+            "name": "Auth",
+            "folders": [],
+            "requests": [
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/register",
+                    "name": "register",
+                    "params": [],
+                    "headers": [],
+                    "method": "POST",
+                    "auth": { "authType": "inherit", "authActive": true },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"name\": \"test user\",\n  \"mailId\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "requestVariables": []
+                },
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/login",
+                    "name": "login",
+                    "params": [],
+                    "headers": [],
+                    "method": "POST",
+                    "auth": { "authType": "inherit", "authActive": true },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"mailId\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+                    },
+                    "requestVariables": []
+                },
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/refresh-token",
+                    "name": "refresh-token",
+                    "params": [],
+                    "headers": [],
+                    "method": "POST",
+                    "auth": { "authType": "inherit", "authActive": true },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMGE1ZDljZC1kN2Y2LTRmMDAtOTE3OS02YWZmZWNjMDVkNGMiLCJpYXQiOjE3MjQ2MDQzNjYsImV4cCI6MTcyNTIwOTE2Nn0.en-eZ5LLziyUQGpWemArbtAJSN1FKI3xsVEiJJaeURE\"\n}"
+                    },
+                    "requestVariables": []
+                }
+            ],
+            "auth": { "authType": "inherit", "authActive": true },
+            "headers": []
+        },
+        {
+            "v": 2,
+            "name": "User",
+            "folders": [],
+            "requests": [
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/user",
+                    "name": "user",
+                    "params": [],
+                    "headers": [],
+                    "method": "GET",
+                    "auth": {
+                        "authType": "bearer",
+                        "authActive": true,
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMGE1ZDljZC1kN2Y2LTRmMDAtOTE3OS02YWZmZWNjMDVkNGMiLCJpYXQiOjE3MjQ2MDQzNjYsImV4cCI6MTcyNDYwNzk2Nn0.O0iTE26CMrL2b216go877BMXOYNRSQk9hiZsIwzEt_A"
+                    },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"id\":\"d1a506eb-1317-4f90-9ccc-8f5738957a4b\"\n}"
+                    },
+                    "requestVariables": []
+                },
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/user",
+                    "name": "update user",
+                    "params": [],
+                    "headers": [],
+                    "method": "PATCH",
+                    "auth": {
+                        "authType": "bearer",
+                        "authActive": true,
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMGE1ZDljZC1kN2Y2LTRmMDAtOTE3OS02YWZmZWNjMDVkNGMiLCJpYXQiOjE3MjQ2MDU3NzcsImV4cCI6MTcyNDYwOTM3N30.mOFYMayhIzX_FA7Hs52j4thfHYwLkjrU__YUyyn7X24"
+                    },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"name\": \"user34b\"\n}"
+                    },
+                    "requestVariables": []
+                },
+                {
+                    "v": "6",
+                    "endpoint": "http://localhost:3001/api/user",
+                    "name": "Delete user",
+                    "params": [],
+                    "headers": [],
+                    "method": "DELETE",
+                    "auth": {
+                        "authType": "bearer",
+                        "authActive": true,
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkMGE1ZDljZC1kN2Y2LTRmMDAtOTE3OS02YWZmZWNjMDVkNGMiLCJpYXQiOjE3MjQ2MDU3NzcsImV4cCI6MTcyNDYwOTM3N30.mOFYMayhIzX_FA7Hs52j4thfHYwLkjrU__YUyyn7X24"
+                    },
+                    "preRequestScript": "",
+                    "testScript": "",
+                    "body": {
+                        "contentType": "application/json",
+                        "body": "{\n  \"name\": \"user34b\"\n}"
+                    },
+                    "requestVariables": []
+                }
+            ],
+            "auth": { "authType": "inherit", "authActive": true },
+            "headers": []
+        }
+    ],
+    "requests": [
+        {
+            "v": "6",
+            "endpoint": "http://localhost:3001/api/test",
+            "name": "test",
+            "params": [],
+            "headers": [],
+            "method": "GET",
+            "auth": { "authType": "inherit", "authActive": true },
+            "preRequestScript": "",
+            "testScript": "",
+            "body": {
+                "contentType": "text/plain",
+                "body": "{\n    \"preview\": true,\n    \"selectedEmployeeId\": \"1003\",\n    \"startDate\": \"01-07-2024\",\n    \"endDate\": \"26-07-2024\"\n}"
+            },
+            "requestVariables": []
+        }
+    ],
+    "auth": { "authType": "none", "authActive": true },
+    "headers": []
+}
