@@ -1,78 +1,52 @@
 import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import { User } from '../models';
-import {
-    generateAccessToken,
-    generateRefreshToken,
-    verifyRefreshToken,
-} from '../helpers/jwt';
+import { UserService } from '../services';
 
-export class AuthController {
+export default class AuthController {
+    // register new users
     static async register(req: Request, res: Response) {
         const { name, mailId, password } = req.body;
 
         try {
-            const existingUser = await User.findOne({ where: { mailId } });
-            if (existingUser) {
+            if (await UserService.isUserPresent(mailId)) {
                 return res
                     .status(400)
                     .json({ message: 'Email is already registered' });
             }
-
-            const newUser = await User.create({ name, mailId, password });
-
-            // Generate tokens
-            const accessToken = generateAccessToken(newUser.id);
-            const refreshToken = generateRefreshToken(newUser.id);
-
-            console.log('Generated token: ' + accessToken);
-
+            const userData = await UserService.createUser({
+                name,
+                mailId,
+                password,
+            });
             return res.status(201).json({
                 message: 'User registered successfully',
-                user: {
-                    id: newUser.id,
-                    name: newUser.name,
-                    mailId: newUser.mailId,
-                },
-                accessToken,
-                refreshToken,
+                ...userData,
             });
         } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
         }
     }
 
+    // login user
     static async login(req: Request, res: Response) {
         const { mailId, password } = req.body;
 
         try {
-            const user = await User.findOne({ where: { mailId } });
-            if (!user) {
-                return res.status(401).json({ message: 'Invalid credentials' });
-            }
-
-            const isPasswordValid = await bcrypt.compare(
-                password,
-                user.password
+            const { success, tokens } = await UserService.loginUser(
+                mailId,
+                password
             );
-            if (!isPasswordValid) {
+
+            if (!success) {
                 return res.status(401).json({ message: 'Invalid credentials' });
             }
 
-            const accessToken = generateAccessToken(user.id);
-            const refreshToken = generateRefreshToken(user.id);
-
-            return res.json({ accessToken, refreshToken });
+            return res.json(tokens);
         } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
         }
     }
 
-    static async logout(req: Request, res: Response) {
-        // For a simple logout, you could remove the refresh token from a database or in-memory store.
-        return res.status(200).json({ message: 'Logged out successfully' });
-    }
-
+    // get new access and refresh token
     static async refreshToken(req: Request, res: Response) {
         const { token } = req.body;
 
@@ -83,14 +57,9 @@ export class AuthController {
         }
 
         try {
-            const payload: any = verifyRefreshToken(token);
-            const newAccessToken = generateAccessToken(payload.userId);
-            const newRefreshToken = generateRefreshToken(payload.userId);
+            const tokens = await UserService.refreshUserTokens(token);
 
-            return res.json({
-                accessToken: newAccessToken,
-                refreshToken: newRefreshToken,
-            });
+            return res.json(tokens);
         } catch (error) {
             return res.status(403).json({ message: 'Invalid refresh token' });
         }

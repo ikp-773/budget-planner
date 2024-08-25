@@ -1,34 +1,43 @@
 import { User } from '../models';
 import { UserCreationAttributes, UserUpdationAttributes } from '../models/user';
 
-export class UserRepo {
+export default class UserRepo {
     //get all users
-    async getAllUsers() {
-        return await User.findAll();
+    static async getAllUsers() {
+        return await User.findAll({ attributes: { exclude: ['password'] } });
     }
 
     // get a user by their id
-    async getUserById(id: string) {
-        return await User.findByPk(id);
+    static async getUserById(id: string) {
+        return await User.findByPk(id, {
+            attributes: { exclude: ['password'] },
+        });
     }
+
+    // get a user by their emailId
+    static async getUserByMail(mailId: string) {
+        return await User.findOne({
+            where: { mailId },
+            attributes: { exclude: ['password'] },
+        });
+    }
+
     // to create new user
-    async createUser({ name, mailId, password }: UserCreationAttributes) {
+    static async createUser({
+        name,
+        mailId,
+        password,
+    }: UserCreationAttributes) {
         return await User.create({ name, mailId, password });
     }
 
-    // to check if user already exists
-    async userExists(mailId: string): Promise<boolean> {
-        const user = await User.findOne({ where: { mailId } });
-        return user !== null;
-    }
-
     // update user details by id
-    async updateUser(id: string, updates: UserUpdationAttributes) {
+    static async updateUser(id: string, updates: UserUpdationAttributes) {
         return await User.update(updates, { where: { id } });
     }
 
     // delete user by their id
-    async deleteUser(id: string) {
+    static async deleteUser(id: string) {
         return await User.destroy({ where: { id } });
     }
 }

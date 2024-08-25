@@ -1,14 +1,12 @@
 import { Request, Response } from 'express';
-import { User } from '../models';
+import { UserService } from '../services';
 
-export class UserController {
+export default class UserController {
     static async getUser(req: Request, res: Response) {
         const userId = (req as any).userId;
 
         try {
-            const user = await User.findByPk(userId, {
-                attributes: { exclude: ['password'] },
-            });
+            const user = await UserService.getUserById(userId);
 
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });

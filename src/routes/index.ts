@@ -6,7 +6,7 @@ import { validateUserRegistration } from '../middlewares/registration_validator'
 
 const router = express.Router();
 
-router.get(Endpoints.test, TestController.testEndpoint);
+router.get(Endpoints.test, authenticateToken, TestController.testEndpoint);
 
 router.post(
     Endpoints.register,
@@ -14,7 +14,6 @@ router.post(
     AuthController.register
 );
 router.post(Endpoints.login, AuthController.login);
-router.get(Endpoints.logout, AuthController.logout);
 router.post(Endpoints.refreshToken, AuthController.refreshToken);
 router.get(Endpoints.user, authenticateToken, UserController.getUser);
 
