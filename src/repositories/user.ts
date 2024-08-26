@@ -31,8 +31,8 @@ export default class UserRepo {
     }
 
     // update user details by id
-    static async updateUser(id: string, updates: UserUpdationAttributes) {
-        return await User.update(updates, { where: { id } });
+    static async updateUser(id: string, payload: UserUpdationAttributes) {
+        return await User.update(payload, { where: { id } });
     }
 
     // delete user by their id
