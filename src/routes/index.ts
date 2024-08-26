@@ -1,5 +1,10 @@
 import express from 'express';
-import { AuthController, TestController, UserController } from '../controllers';
+import {
+    AuthController,
+    SpendTypeController,
+    TestController,
+    UserController,
+} from '../controllers';
 import { Endpoints } from './endpoints';
 import { authenticateToken } from '../middlewares/auth';
 import { validateUserRegistration } from '../middlewares/registration_validator';
@@ -22,5 +27,12 @@ router.post(Endpoints.refreshToken, AuthController.refreshToken);
 router.get(Endpoints.user, authenticateToken, UserController.getUser);
 router.patch(Endpoints.user, authenticateToken, UserController.updateUser);
 router.delete(Endpoints.user, authenticateToken, UserController.deleteUser);
+
+// spend type management
+router.get(
+    Endpoints.getAllSpendTypes,
+    authenticateToken,
+    SpendTypeController.getAllSpendTypes
+);
 
 export default router;
