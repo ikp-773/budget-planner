@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services';
+import ResponseHelper from '../helpers/response';
 
 export default class AuthController {
     // register new users
@@ -8,21 +9,25 @@ export default class AuthController {
 
         try {
             if (await UserService.isUserPresent(mailId)) {
-                return res
-                    .status(400)
-                    .json({ message: 'Email is already registered' });
+                return ResponseHelper.error(
+                    res,
+                    'email already registered',
+                    400,
+                    'Email is already registered'
+                );
             }
             const userData = await UserService.createUser({
                 name,
                 mailId,
                 password,
             });
-            return res.status(201).json({
-                message: 'User registered successfully',
-                ...userData,
-            });
+            return ResponseHelper.created(
+                res,
+                userData,
+                'User registered successfully'
+            );
         } catch (error) {
-            return res.status(500).json({ message: 'Internal server error' });
+            return ResponseHelper.error(res, error);
         }
     }
 
@@ -37,14 +42,21 @@ export default class AuthController {
             );
 
             if (!success) {
-                return res.status(401).json({ message: 'Invalid credentials' });
+                return ResponseHelper.error(
+                    res,
+                    'invalid credentials',
+                    401,
+                    'Invalid Credentials'
+                );
             }
 
-            return res.json(tokens);
+            return ResponseHelper.success(
+                res,
+                tokens,
+                'User logged in successfully'
+            );
         } catch (error) {
-            return res
-                .status(500)
-                .json({ message: 'Internal server error', error: error });
+            return ResponseHelper.error(res, error);
         }
     }
 
@@ -53,17 +65,28 @@ export default class AuthController {
         const { token } = req.body;
 
         if (!token) {
-            return res
-                .status(400)
-                .json({ message: 'Refresh Token is required' });
+            return ResponseHelper.error(
+                res,
+                'token not present',
+                400,
+                'Refresh Token is required'
+            );
         }
 
         try {
             const tokens = await UserService.refreshUserTokens(token);
-
-            return res.json(tokens);
+            return ResponseHelper.success(
+                res,
+                tokens,
+                'Tokens successfully refreshed'
+            );
         } catch (error) {
-            return res.status(403).json({ message: 'Invalid refresh token' });
+            return ResponseHelper.error(
+                res,
+                error,
+                403,
+                'Invalid refresh token'
+            );
         }
     }
 }

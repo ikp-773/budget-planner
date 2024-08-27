@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services';
+import ResponseHelper from '../helpers/response';
 
 export default class UserController {
     // get logged in user
@@ -10,12 +11,16 @@ export default class UserController {
             const user = await UserService.getUserById(userId);
 
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return ResponseHelper.error(
+                    res,
+                    'user not found',
+                    404,
+                    'User not found'
+                );
             }
-
-            return res.json(user);
+            return ResponseHelper.success(res, user);
         } catch (error) {
-            return res.status(500).json({ message: 'Internal server error' });
+            return ResponseHelper.error(res, error);
         }
     }
 
@@ -26,9 +31,13 @@ export default class UserController {
 
         try {
             await UserService.updateUser(userId, body);
-            return res.json({ message: `Updated user` });
+            return ResponseHelper.success(
+                res,
+                `user data updated`,
+                'User updated successfully'
+            );
         } catch (error) {
-            return res.status(500).json({ message: 'Internal server error' });
+            return ResponseHelper.error(res, error);
         }
     }
 
@@ -38,9 +47,13 @@ export default class UserController {
 
         try {
             await UserService.deleteUser(userId);
-            return res.json({ message: `User ${userId} deleted` });
+            return ResponseHelper.success(
+                res,
+                `user ${userId} deleted`,
+                'User updated successfully'
+            );
         } catch (error) {
-            return res.status(500).json({ message: 'Internal server error' });
+            return ResponseHelper.error(res, error);
         }
     }
 }

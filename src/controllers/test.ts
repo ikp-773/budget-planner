@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
+import ResponseHelper from '../helpers/response';
 
 export default class TestController {
     static testEndpoint(req: Request, res: Response): void {
-        res.status(200).json({ message: 'API is up and running' });
+        return ResponseHelper.noContent(
+            res,
+            'API is up and running successfully'
+        );
     }
 }
