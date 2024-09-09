@@ -50,7 +50,7 @@ export default class UserController {
             return ResponseHelper.success(
                 res,
                 `user ${userId} deleted`,
-                'User updated successfully'
+                'User deleted successfully'
             );
         } catch (error) {
             return ResponseHelper.error(res, error);
